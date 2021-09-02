@@ -45,6 +45,7 @@ while shouldRun:
     rising = reading > 0
     while (reading >= 0) == rising:
         reading = getReading()
+        print(reading)
         paddlePos = paddlePos - reading*4
         paddlePos = max(paddlePos, 0)
         paddlePos = min(paddlePos, 640)
