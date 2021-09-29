@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 import serial
 import serial.tools.list_ports
+from gesture_control import GestureController
 
 WIDTH = 400
 HEIGHT = 400
@@ -42,3 +43,6 @@ def blitAll():
 
 serialPort = getSerialPort()
 gestureEnabled = serialPort != ""
+
+if gestureEnabled:
+    controller = GestureController(serialPort)
