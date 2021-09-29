@@ -16,10 +16,10 @@ def main():
     HEIGHT = 400
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-    background = pygame.image.load("bg.png")
+    background = pygame.image.load("../assets/bg.png")
     screen.blit(background, (0, 0))
-    ball = pygame.image.load("Ball.png")
-    paddle = pygame.image.load("Paddle.png")
+    ball = pygame.image.load("../assets/Ball.png")
+    paddle = pygame.image.load("../assets/Paddle.png")
     paddleposx = 5
     paddleposy = 10
     xpos = 200
