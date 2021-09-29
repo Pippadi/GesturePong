@@ -31,8 +31,6 @@ def main():
     paddlerect = paddle.get_rect(topleft = (paddleposx+23, paddleposy))
     ballrect = paddle.get_rect(topleft = (xpos + 23, ypos))
 
-    clock = pygame.time.Clock()
-
     pygame.display.update()
 
     running = True
