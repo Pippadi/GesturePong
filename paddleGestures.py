@@ -2,15 +2,15 @@
 
 import pygame
 import serial
-from time import sleep
+from time import sleep, perf_counter
 import math
 
-s = serial.Serial("/dev/ttyACM0")
+s = serial.Serial("/dev/ttyACM1")
 
 bgColor = (0, 0, 0)
 paddleColor = (10, 100, 100)
 
-paddlePos = 640
+paddlePos = 0
 
 s.readline()
 
@@ -37,23 +37,17 @@ def updateWindow():
             quit()
 
 shouldRun = True
+prevT = perf_counter()
+v = 0
 
 while shouldRun:
-
-    reading = getReading()
-    
-    rising = reading > 0
-    while (reading >= 0) == rising:
-        reading = getReading()
-        print(reading)
-        paddlePos = paddlePos - reading*4
-        paddlePos = max(paddlePos, 0)
-        paddlePos = min(paddlePos, 640)
-        updateWindow()
-
-    while (reading < 0) == rising:
-        reading = getReading()
-        paddlePos = paddlePos - reading*4
-        paddlePos = max(paddlePos, 0)
-        paddlePos = min(paddlePos, 640)
-        updateWindow()
+    nowT = perf_counter()
+    reading = -getReading() * 98
+    t = nowT - prevT
+    prevT = nowT
+    distance = v*t + 0.5*reading*(t**2)
+    v = reading * t
+    paddlePos += distance*100
+    paddlePos = max(paddlePos, 0)
+    paddlePos = min(paddlePos, 640)
+    updateWindow()
