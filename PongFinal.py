@@ -5,6 +5,7 @@ import pygame
 import random 
 import time
 from pygame.locals import * 
+import serial
 
 pygame.init()
    
@@ -12,6 +13,7 @@ pygame.display.set_caption("Pong")
 
 WIDTH = 400
 HEIGHT = 400
+
 BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 FONT = pygame.font.SysFont(None, 48)
@@ -20,7 +22,7 @@ background = pygame.image.load("assets/bg.png")
 ball = pygame.image.load("assets/Ball.png")
 paddle = pygame.image.load("assets/Paddle.png")
 
-angle = 20
+angle = random.randint(20, 60)
 xStep = 3
 yStep = 3
 x = 100
@@ -44,10 +46,10 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                paddleY -= paddleStep
+                paddleY = max(paddleY-paddleStep, 0)
 
             if event.key == pygame.K_DOWN:
-                paddleY += paddleStep
+                paddleY = min(paddleY+paddleStep, HEIGHT)
                         
     x += math.sin(math.radians(angle)) * xStep
     y += math.cos(math.radians(angle)) * yStep
