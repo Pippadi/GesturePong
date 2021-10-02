@@ -26,13 +26,11 @@ yStep = 3
 x = 100
 y = 100
 
-paddleStep = 10
-X = 2
-Y = 10
+paddleStep = 50
+paddleX = 2
+paddleY = 10
 
-p = 0
-
-points = FONT.render(str(p), True, BLACK)
+points = 0
 
 textx = WIDTH - 30
 texty = 10
@@ -46,31 +44,34 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                Y -= paddleStep
+                paddleY -= paddleStep
 
             if event.key == pygame.K_DOWN:
-                Y += paddleStep
+                paddleY += paddleStep
                         
     x += math.sin(math.radians(angle)) * xStep
     y += math.cos(math.radians(angle)) * yStep
 
     ballrect = ball.get_rect(topleft = (x + 23, y))
-    paddlerect = paddle.get_rect(topleft = (X + 23, Y))
+    paddlerect = paddle.get_rect(topleft = (paddleX + 23, paddleY))
 
-    if x >= HEIGHT or x <= 0:
+    if x >= HEIGHT:
         xStep = -xStep
+    if x <= 0:
+        xStep = -xStep
+        points -= 1
     if y >= WIDTH or y <= 0:
         yStep =  -yStep
 
     if ballrect.colliderect(paddlerect):
-        p += 1
+        points += 1
         xStep = -xStep
     
-    points = FONT.render(str(p), True, BLACK)
+    pointsText = FONT.render(str(points), True, BLACK)
 
     screen.blit(background, (0, 0))
-    screen.blit(points, (textx, texty))
+    screen.blit(pointsText, (textx, texty))
     screen.blit(ball, (x, y))
-    screen.blit(paddle, (X, Y))
+    screen.blit(paddle, (paddleX, paddleY))
     pygame.display.update()
     time.sleep(0.001)
