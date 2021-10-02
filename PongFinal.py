@@ -7,12 +7,14 @@ import time
 from pygame.locals import * 
 import serial
 
-pygame.init()
-   
-pygame.display.set_caption("Pong")
-
 WIDTH = 400
 HEIGHT = 400
+
+PADDLE_INITIAL_X = 2
+PADDLE_INITIAL_Y = HEIGHT//2
+
+pygame.init()
+pygame.display.set_caption("Pong")
 
 BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -29,8 +31,8 @@ x = 100
 y = 100
 
 paddleStep = 50
-paddleX = 2
-paddleY = 10
+paddleX = PADDLE_INITIAL_X
+paddleY = PADDLE_INITIAL_Y
 
 points = 0
 
