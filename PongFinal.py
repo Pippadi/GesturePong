@@ -6,12 +6,31 @@ import random
 import time
 from pygame.locals import * 
 import serial
+import serial.tools.list_ports
 
 WIDTH = 400
 HEIGHT = 400
 
 PADDLE_INITIAL_X = 2
 PADDLE_INITIAL_Y = HEIGHT//2
+PADDLE_STEP = 50
+TEXT_X = WIDTH - 30
+TEXT_Y = 10
+
+def getSerialPort():
+    print("Which serial port is the gesture controller connected to?")
+    ports = [port.device for port in serial.tools.list_ports.comports()]
+    print("0) None")
+    for i in range(0, len(ports)):
+        print(i+1, end=") ")
+        print(ports[i])
+    sel = int(input("0 - "+str(len(ports))+": "))
+    if sel != 0:
+        return ports[sel - 1]
+    return ""
+
+serialPort = getSerialPort()
+gestureEnabled = serialPort != ""
 
 pygame.init()
 pygame.display.set_caption("Pong")
@@ -30,15 +49,10 @@ yStep = 3
 x = 100
 y = 100
 
-paddleStep = 50
 paddleX = PADDLE_INITIAL_X
 paddleY = PADDLE_INITIAL_Y
 
 points = 0
-
-textx = WIDTH - 30
-texty = 10
-
 running = True
 
 while running:
@@ -48,10 +62,10 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                paddleY = max(paddleY-paddleStep, 0)
+                paddleY = max(paddleY-PADDLE_STEP, 0)
 
             if event.key == pygame.K_DOWN:
-                paddleY = min(paddleY+paddleStep, HEIGHT)
+                paddleY = min(paddleY+PADDLE_STEP, HEIGHT)
                         
     x += math.sin(math.radians(angle)) * xStep
     y += math.cos(math.radians(angle)) * yStep
@@ -74,7 +88,7 @@ while running:
     pointsText = FONT.render(str(points), True, BLACK)
 
     screen.blit(background, (0, 0))
-    screen.blit(pointsText, (textx, texty))
+    screen.blit(pointsText, (TEXT_X, TEXT_Y))
     screen.blit(ball, (x, y))
     screen.blit(paddle, (paddleX, paddleY))
     pygame.display.update()
