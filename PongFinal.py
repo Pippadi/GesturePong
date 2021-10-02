@@ -27,7 +27,7 @@ def main():
     y = 100
 
     paddleStep = 10
-    X = 10
+    X = 3
     Y = 10
 
 
@@ -68,6 +68,8 @@ def main():
 
         if ballrect.colliderect(paddlerect):
             p += 1
+	    xStep = -xStep
+	
 
         
         points = FONT.render(str(p), True, BLACK)
