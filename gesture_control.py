@@ -5,7 +5,6 @@ class GestureController:
     
     def __init__(self, port):
         self.s = serial.Serial(port)
-        self.s.readline(); self.s.readline();
         self.zero = self.getZero()
         
         self.prevT = perf_counter()
@@ -26,13 +25,18 @@ class GestureController:
     def getZero(self):
         zerosum = 0
         for i in range(0, 50):
-            zerosum += int(self.s.readline().decode())
+            try:
+                zerosum += int(self.s.readline().decode())
+            except:
+                pass
         return zerosum // 50
 
     def getReading(self):
-        r = int(self.s.readline().decode) - self.zero
-        if abs(r) < 2:
-            return 0
+        try:
+            r = int(self.s.readline().decode()) - self.zero
+        except:
+            r = 0
+            print("Invalid value from gesture controller")
         return r
 
     def newPositionIncrement(self):
@@ -40,6 +44,8 @@ class GestureController:
         reading  = -self.getReading() * 100
         t = nowT - self.prevT
         self.prevT = nowT
-        distance = self.velocity*t + 0.5*reading*(t**2)
+        distance = (self.velocity*t + 0.5*reading*(t**2)) * 100
         self.velocity = reading * t
+        if abs(distance) < 3:
+            return 0
         return distance
