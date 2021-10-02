@@ -27,7 +27,7 @@ def main():
     y = 100
 
     paddleStep = 10
-    X = 3
+    X = 2
     Y = 10
 
 
@@ -68,7 +68,7 @@ def main():
 
         if ballrect.colliderect(paddlerect):
             p += 1
-	    xStep = -xStep
+            xStep = -xStep
 	
 
         
