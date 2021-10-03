@@ -12,7 +12,7 @@ from gesture_control import GestureController
 WIDTH = 400
 HEIGHT = 400
 
-PADDLE_INITIAL_X = 2
+PADDLE_INITIAL_X = -1
 PADDLE_INITIAL_Y = HEIGHT//2
 PADDLE_STEP = 50
 TEXT_X = WIDTH - 60
@@ -87,6 +87,7 @@ while running:
         xStep = -xStep
     if x <= 0:
         xStep = -xStep
+        x = 0
         points -= 1
     if y >= WIDTH or y <= 0:
         yStep =  -yStep
