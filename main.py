@@ -25,7 +25,10 @@ def getSerialPort():
     for i in range(0, len(ports)):
         print(i+1, end=") ")
         print(ports[i])
-    sel = int(input("0 - "+str(len(ports))+": "))
+    try:
+        sel = int(input("0 - "+str(len(ports))+": "))
+    except:
+        return ""
     if sel != 0:
         return ports[sel - 1]
     return ""
